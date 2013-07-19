@@ -1,0 +1,27 @@
+{
+  "name": "nor-http-proxy",
+  "version": "0.1.0",
+  "description": "Node.js HTTP proxy test",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Sendanor/nor-http-proxy.git"
+  },
+  "keywords": [
+    "http",
+    "proxy"
+  ],
+  "author": "Jaakko-Heikki Heusala <jheusala@iki.fi>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sendanor/nor-http-proxy/issues"
+  },
+  "dependencies": {
+    "jsdom": "*",
+	"q": "*",
+	"optimist": "*"
+  }
+}
