@@ -1,5 +1,12 @@
 /* nor-http-proxy -- A proxy test */
 
+var argv = require('optimist').argv;
+
+var REMOTE_HOST = argv['remote-host'] || 'www.jhh.me';
+var REMOTE_PORT = argv['remote-port'] || 80;
+var MIRROR_HOST = argv['mirror-host'] || 'localhost';
+var MIRROR_PORT = argv['mirror-port'] || 3000;
+
 var Q = require('q');
 var jsdom = require('jsdom');
 var jquery_path = require('path').join(__dirname, "../libs/jquery-1.10.2.js");
@@ -27,12 +34,12 @@ function parse_content_type(type) {
 	return obj;
 }
 
-/** Change URLs to www.jhh.me to zeta3-lts:3000 */
+/** Change URLs to REMOTE_HOST to MIRROR_HOST:MIRROR_PORT */
 function do_rebase_url(url) {
 	var parsed = require('url').parse(url);
-	if(parsed.hostname === 'www.jhh.me') {
-		parsed.hostname = 'zeta3-lts';
-		parsed.port = 3000;
+	if(parsed.hostname === REMOTE_HOST) {
+		parsed.hostname = MIRROR_HOST;
+		parsed.port = MIRROR_PORT;
 		if(parsed.host) { delete parsed.host; }
 	}
 	return require('url').format(parsed);
@@ -133,8 +140,8 @@ http.createServer(function (req, res) {
 
 	var options = {};
 	options.method = req.method;
-	options.hostname = 'www.jhh.me';
-	options.port = 80;
+	options.hostname = REMOTE_HOST;
+	options.port = REMOTE_PORT;
 	options.path = url.pathname;
 
 	console.log( "options =", JSON.stringify(options, null, 2) );
@@ -156,7 +163,7 @@ http.createServer(function (req, res) {
 	//remote_req.write('data\n');
 	remote_req.end();
 
-}).listen(3000);
-console.log('Server running at http://0.0.0.0:3000/');
+}).listen(MIRROR_PORT);
+console.log('Server running at http://"+MIRROR_HOST+":"+MIRROR_PORT+"/');
 
 /* EOF */
