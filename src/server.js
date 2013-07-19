@@ -164,6 +164,6 @@ http.createServer(function (req, res) {
 	remote_req.end();
 
 }).listen(MIRROR_PORT);
-console.log('Server running at http://"+MIRROR_HOST+":"+MIRROR_PORT+"/');
+console.log("Server running at http://"+MIRROR_HOST+":"+MIRROR_PORT+"/");
 
 /* EOF */
