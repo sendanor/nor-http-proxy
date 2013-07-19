@@ -34,6 +34,15 @@ function parse_content_type(type) {
 	return obj;
 }
 
+/** Returns true if url is remote url */
+function is_remote_url(url) {
+	var parsed = require('url').parse(url);
+	if(parsed.hostname === REMOTE_HOST) {
+		return true;
+	}
+	return false;
+}
+
 /** Change URLs to REMOTE_HOST to MIRROR_HOST:MIRROR_PORT */
 function do_rebase_url(url) {
 	var parsed = require('url').parse(url);
@@ -81,6 +90,20 @@ function do_hijack_request(remote, local) {
 
 				try {
 					var $ = window.$;
+
+					var links = [];
+
+					$("a[href]").each(function() {
+						if( $(this).attr('target') !== undefined ) {
+							return;
+						}
+						var link = $(this).attr('href');
+						if(is_remote_url(link)) {
+							links.push(link);
+						}
+					});
+
+					console.log('links detected: ', links);
 
 					$("[href]").each(function() {
 						var link = $(this).attr('href');
